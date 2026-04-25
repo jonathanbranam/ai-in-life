@@ -4,35 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI in My Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0f1117;
-      --surface: #1a1d27;
-      --accent: #5b8dee;
-      --accent2: #e8834a;
-      --text: #e8eaf0;
-      --muted: #7a7f99;
-      --card: #22263a;
+      --bg:      #07071a;
+      --surface: #0e0e28;
+      --cyan:    #00e5ff;
+      --magenta: #ff2d78;
+      --yellow:  #ffd700;
+      --green:   #39ff14;
+      --white:   #dde0f0;
+      --muted:   #555577;
+      --dim:     #2a2a4a;
     }
 
     body {
       background: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 1px, transparent 0);
+      background-size: 20px 20px;
+      color: var(--white);
+      font-family: 'Press Start 2P', monospace;
       height: 100vh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
-    /* ── Slide container ── */
-    #deck {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
+    /* CRT scanlines */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.13) 3px, rgba(0,0,0,0.13) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
     }
+
+    /* ── Deck ── */
+    #deck { flex: 1; position: relative; overflow: hidden; }
 
     .slide {
       position: absolute;
@@ -41,122 +57,91 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 60px 80px;
+      padding: 36px 56px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.25s ease;
       text-align: center;
     }
-    .slide.active {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .slide.active { opacity: 1; pointer-events: all; }
 
-    /* ── Typography ── */
+    /* ── Type ── */
     .kicker {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 18px;
+      font-size: 8px;
+      color: var(--magenta);
+      text-shadow: 0 0 10px var(--magenta);
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 20px;
+      font-size: clamp(22px, 3.8vw, 38px);
+      line-height: 1.6;
+      color: var(--cyan);
+      text-shadow: 0 0 24px var(--cyan), 0 0 48px rgba(0,229,255,0.35);
+      margin-bottom: 18px;
     }
+
     h2 {
-      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 20px;
+      font-size: clamp(14px, 2.4vw, 26px);
+      line-height: 1.6;
+      color: var(--cyan);
+      text-shadow: 0 0 16px var(--cyan);
+      margin-bottom: 22px;
     }
 
-    .subtitle {
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      color: var(--muted);
-      max-width: 640px;
+    /* ── Pixel box ── */
+    .pbox {
+      border: 2px solid var(--cyan);
+      padding: 20px 22px;
+      background: rgba(0,229,255,0.04);
+      box-shadow: 0 0 14px rgba(0,229,255,0.25), inset 0 0 14px rgba(0,229,255,0.04);
+    }
+    .pbox.yellow {
+      border-color: var(--yellow);
+      background: rgba(255,215,0,0.04);
+      box-shadow: 0 0 14px rgba(255,215,0,0.25), inset 0 0 14px rgba(255,215,0,0.04);
+    }
+    .pbox.magenta {
+      border-color: var(--magenta);
+      background: rgba(255,45,120,0.04);
+      box-shadow: 0 0 14px rgba(255,45,120,0.25), inset 0 0 14px rgba(255,45,120,0.04);
+    }
+    .pbox.green {
+      border-color: var(--green);
+      background: rgba(57,255,20,0.04);
+      box-shadow: 0 0 14px rgba(57,255,20,0.25), inset 0 0 14px rgba(57,255,20,0.04);
     }
 
-    /* ── Layout helpers ── */
+    .box-label {
+      font-size: 8px;
+      margin-bottom: 14px;
+      letter-spacing: 0.06em;
+    }
+    .box-label.cyan    { color: var(--cyan);    text-shadow: 0 0 8px var(--cyan); }
+    .box-label.yellow  { color: var(--yellow);  text-shadow: 0 0 8px var(--yellow); }
+    .box-label.magenta { color: var(--magenta); text-shadow: 0 0 8px var(--magenta); }
+    .box-label.green   { color: var(--green);   text-shadow: 0 0 8px var(--green); }
+
+    .pbox ul { list-style: none; padding: 0; text-align: left; }
+    .pbox ul li {
+      font-size: 9px;
+      line-height: 2.4;
+      color: var(--white);
+    }
+    .pbox ul li::before { content: "▶  "; color: var(--yellow); }
+
+    /* ── Two-col ── */
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
+      gap: 24px;
       width: 100%;
-      max-width: 900px;
-      text-align: left;
+      max-width: 860px;
     }
 
-    .card {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 28px;
-    }
-    .card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      color: var(--accent);
-    }
-    .card p, .card li {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-    .card ul { list-style: none; padding: 0; }
-    .card ul li::before { content: "→ "; color: var(--accent2); }
-
-    .pill {
-      display: inline-block;
-      background: var(--card);
-      border: 1px solid var(--accent);
-      border-radius: 999px;
-      padding: 6px 18px;
-      font-size: 0.85rem;
-      color: var(--accent);
-      margin: 4px;
-    }
-
-    .highlight {
-      color: var(--accent2);
-    }
-
-    blockquote {
-      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-      font-style: italic;
-      color: var(--muted);
-      max-width: 700px;
-      line-height: 1.5;
-      border-left: 4px solid var(--accent2);
-      padding-left: 24px;
-      text-align: left;
-      margin-top: 16px;
-    }
-
-    /* ── Screenshot placeholder ── */
-    .screenshot {
-      width: 100%;
-      max-width: 480px;
-      aspect-ratio: 16/9;
-      background: var(--card);
-      border: 2px dashed #3a3f5c;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-      font-style: italic;
-    }
-    .screenshot.tall {
-      aspect-ratio: 4/5;
-      max-width: 260px;
-    }
-
-    /* ── Timeline ── */
-    .timeline {
+    /* ── Steps ── */
+    .steps {
       display: flex;
       flex-direction: column;
       gap: 18px;
@@ -164,222 +149,425 @@
       max-width: 700px;
       text-align: left;
     }
-    .timeline-item {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-    .timeline-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--accent);
-      margin-top: 5px;
+    .step { display: flex; gap: 18px; align-items: flex-start; }
+    .step-num {
+      font-size: 10px;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
       flex-shrink: 0;
+      width: 32px;
     }
-    .timeline-item.muted .timeline-dot { background: var(--accent2); }
-    .timeline-item h4 { font-size: 1rem; margin-bottom: 4px; }
-    .timeline-item p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+    .step-title { font-size: 10px; line-height: 1.8; color: var(--white); }
+    .step-sub   { font-size: 8px;  line-height: 2.2; color: var(--muted); margin-top: 5px; }
 
-    /* ── Nav ── */
+    /* ── Retro quote ── */
+    .retro-quote {
+      font-size: 9px;
+      line-height: 2.2;
+      color: var(--yellow);
+      text-shadow: 0 0 10px var(--yellow);
+      text-align: center;
+      max-width: 580px;
+      margin-top: 22px;
+      border: 1px solid rgba(255,215,0,0.25);
+      padding: 14px 22px;
+    }
+
+    /* ── Achievements (slide 7) ── */
+    .achievements {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 700px;
+      width: 100%;
+    }
+    .achievement {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 14px 18px;
+      border: 2px solid var(--green);
+      background: rgba(57,255,20,0.04);
+      box-shadow: 0 0 12px rgba(57,255,20,0.18);
+      text-align: left;
+    }
+    .ach-icon  { font-size: 12px; flex-shrink: 0; margin-top: 3px; }
+    .ach-title { font-size: 9px; color: var(--green); text-shadow: 0 0 8px var(--green); margin-bottom: 7px; }
+    .ach-desc  { font-size: 8px; color: var(--muted); line-height: 2.2; }
+
+    /* ── Chat ── */
+    .chat-context {
+      font-size: 8px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 2;
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .chat-area {
+      width: 100%;
+      max-width: 740px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .chat-msg {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      max-width: 82%;
+    }
+    .chat-msg.visible { opacity: 1; transform: translateY(0); }
+    .chat-msg.user  { align-self: flex-end; }
+    .chat-msg.claude { align-self: flex-start; }
+    .chat-msg.system { align-self: center; max-width: 90%; }
+
+    .chat-who {
+      font-size: 7px;
+      margin-bottom: 6px;
+      letter-spacing: 0.06em;
+    }
+    .chat-msg.user   .chat-who { color: var(--yellow); text-align: right; text-shadow: 0 0 8px var(--yellow); }
+    .chat-msg.claude .chat-who { color: var(--cyan);   text-shadow: 0 0 8px var(--cyan); }
+    .chat-msg.system .chat-who { color: var(--muted);  text-align: center; }
+
+    .chat-bubble {
+      font-size: 9px;
+      line-height: 2.2;
+      padding: 12px 16px;
+    }
+    .chat-msg.user   .chat-bubble { border: 2px solid var(--yellow); background: rgba(255,215,0,0.07);  box-shadow: 0 0 10px rgba(255,215,0,0.2); }
+    .chat-msg.claude .chat-bubble { border: 2px solid var(--cyan);   background: rgba(0,229,255,0.06);  box-shadow: 0 0 10px rgba(0,229,255,0.2); }
+    .chat-msg.system .chat-bubble { border: 1px solid var(--muted);  background: rgba(255,255,255,0.02); color: var(--muted); font-size: 8px; text-align: center; }
+
+    .chat-hint {
+      font-size: 7px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      min-height: 18px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Blink ── */
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── Nav bar ── */
     #nav {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 24px;
-      padding: 16px;
+      padding: 10px;
       background: var(--surface);
+      border-top: 2px solid var(--dim);
     }
     #nav button {
-      background: var(--card);
-      border: none;
-      color: var(--text);
-      padding: 8px 20px;
-      border-radius: 6px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      background: transparent;
+      border: 2px solid var(--cyan);
+      color: var(--cyan);
+      padding: 8px 16px;
       cursor: pointer;
-      font-size: 0.9rem;
+      text-shadow: 0 0 8px var(--cyan);
+      box-shadow: 0 0 8px rgba(0,229,255,0.2);
+      transition: background 0.15s;
     }
-    #nav button:hover { background: var(--accent); color: #fff; }
-    #nav button:disabled { opacity: 0.3; cursor: default; }
-    #counter { color: var(--muted); font-size: 0.85rem; min-width: 60px; text-align: center; }
-
-    /* ── Slide-specific accents ── */
-    #slide-1 { background: radial-gradient(ellipse at 60% 40%, #1a2540 0%, var(--bg) 70%); }
-    #slide-5 { background: radial-gradient(ellipse at 40% 60%, #1a2a20 0%, var(--bg) 70%); }
-    #slide-6 { background: radial-gradient(ellipse at 50% 50%, #201a2a 0%, var(--bg) 70%); }
+    #nav button:hover  { background: rgba(0,229,255,0.15); }
+    #nav button:disabled { opacity: 0.22; cursor: default; }
+    #counter { font-size: 8px; color: var(--muted); min-width: 72px; text-align: center; }
   </style>
 </head>
 <body>
 
 <div id="deck">
 
-  <!-- ── SLIDE 1: Hook ── -->
+  <!-- ════ SLIDE 1: TITLE ════ -->
   <div class="slide active" id="slide-1">
-    <div class="kicker">AI in my life — a personal story</div>
-    <h1>I built a video game<br>with my daughter<br><span class="highlight">about an otter.</span></h1>
-    <p class="subtitle" style="margin-top: 16px;">Here's how I got there, and what I learned along the way.</p>
+    <div style="font-size:11px; color:var(--yellow); text-shadow:0 0 10px var(--yellow); letter-spacing:12px; margin-bottom:20px;">★  ★  ★  ★  ★</div>
+    <div class="kicker">──  a personal side quest  ──</div>
+    <h1>AI IN MY LIFE</h1>
+    <p style="font-size:10px; color:var(--muted); line-height:2.2;">
+      I built a video game with my daughter<br>
+      <span style="color:var(--yellow); text-shadow:0 0 10px var(--yellow);">about an otter.</span>
+    </p>
+    <p style="font-size:8px; color:var(--muted); margin-top:28px; line-height:2;">
+      here's how i got there, and what i learned along the way<span class="blink">_</span>
+    </p>
+    <p style="font-size:7px; color:var(--dim); margin-top:32px; letter-spacing:0.1em;">PRESS  →  TO  START</p>
   </div>
 
-  <!-- ── SLIDE 2: Vibe Coding ── -->
+  <!-- ════ SLIDE 2: VIBE CODING ════ -->
   <div class="slide" id="slide-2">
-    <div class="kicker">Phase 1</div>
-    <h2>Vibe Coding:<br>It Worked, Until It Didn't</h2>
-    <div class="two-col" style="margin-top: 28px;">
-      <div class="card">
-        <h3>The Fun Part</h3>
+    <div class="kicker">──  phase 1  ──</div>
+    <h2>VIBE CODING</h2>
+    <div class="two-col">
+      <div class="pbox yellow">
+        <div class="box-label yellow">EASY  MODE</div>
         <ul>
-          <li>Low friction — just describe what you want</li>
-          <li>Fast results on small projects</li>
-          <li>Felt like magic</li>
+          <li>just describe what you want</li>
+          <li>fast results, felt like magic</li>
+          <li>great for small projects</li>
+          <li>low friction to start</li>
         </ul>
       </div>
-      <div class="card">
-        <h3>The Wall</h3>
+      <div class="pbox magenta">
+        <div class="box-label magenta">GAME  OVER</div>
         <ul>
-          <li>Codebase grew, AI lost the thread</li>
-          <li>Fix one thing, break two others</li>
-          <li>Fighting the tool instead of building</li>
+          <li>codebase grew, AI lost the thread</li>
+          <li>fix one, break two others</li>
+          <li>context drifted and tangled</li>
+          <li>fighting the tool, not building</li>
         </ul>
       </div>
     </div>
-    <blockquote style="margin-top: 32px;">"Vibe coding is great until you're not vibing anymore."</blockquote>
+    <div class="retro-quote">"vibe coding is great until<br>you're not vibing anymore"</div>
   </div>
 
-  <!-- ── SLIDE 3: Spec-Driven ── -->
+  <!-- ════ SLIDE 3: SPEC-DRIVEN ════ -->
   <div class="slide" id="slide-3">
-    <div class="kicker">Phase 2</div>
-    <h2>Spec-Driven Development</h2>
-    <div class="timeline" style="margin-top: 28px;">
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
+    <div class="kicker">──  phase 2  ──</div>
+    <h2>SPEC-DRIVEN  DEV</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
         <div>
-          <h4>Write the spec first</h4>
-          <p>Define what you're building, how it should behave, what the constraints are — before writing a single prompt.</p>
+          <div class="step-title">write the spec first</div>
+          <div class="step-sub">define what you're building before writing a single prompt</div>
         </div>
       </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
+      <div class="step">
+        <div class="step-num">02</div>
         <div>
-          <h4>Give the AI a contract, not a wish</h4>
-          <p>A vague prompt gets a vague result. A structured spec gives the model something to hold itself accountable to.</p>
+          <div class="step-title">give the AI a contract, not a wish</div>
+          <div class="step-sub">vague prompt → vague result<br>clear spec → consistent output</div>
         </div>
       </div>
-      <div class="timeline-item muted">
-        <div class="timeline-dot"></div>
+      <div class="step">
+        <div class="step-num">03</div>
         <div>
-          <h4>Results got dramatically better</h4>
-          <p>The codebase stayed manageable. I spent more time building, less time untangling.</p>
+          <div class="step-title" style="color:var(--green);text-shadow:0 0 8px var(--green);">results got dramatically better</div>
+          <div class="step-sub">codebase stayed manageable<br>more building, less untangling</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── SLIDE 4: Projects ── -->
+  <!-- ════ SLIDE 4: PROJECTS ════ -->
   <div class="slide" id="slide-4">
-    <div class="kicker">What I built</div>
-    <h2>Real Tools I Actually Use</h2>
-    <div class="two-col" style="margin-top: 28px;">
-      <div class="card">
-        <h3>Productivity Tools</h3>
-        <p>Small apps for organizing notes, brainstorming ideas, and doing quick research — things I wanted but didn't want to pay a subscription for.</p>
-        <div style="margin-top: 14px;">
-          <div class="screenshot">[ screenshot ]</div>
+    <div class="kicker">──  completed quests  ──</div>
+    <h2>WHAT  I  BUILT</h2>
+    <div class="two-col">
+      <div class="pbox">
+        <div class="box-label cyan">PRODUCTIVITY  TOOLS</div>
+        <p style="font-size:9px; line-height:2.4; color:var(--white); text-align:left;">
+          small apps for notes,<br>brainstorming, and research.<br><br>
+          <span style="color:var(--muted); font-size:8px;">things i wanted but didn't<br>want to subscribe to.</span>
+        </p>
+        <div style="margin-top:16px; width:100%; aspect-ratio:16/9; border:1px dashed var(--dim); display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:7px; color:var(--dim);">[ screenshot ]</span>
         </div>
       </div>
-      <div class="card">
-        <h3>Time Tracker</h3>
-        <p>Built exactly to how I think about tracking time — no feature bloat, no onboarding. Just what I needed.</p>
-        <div style="margin-top: 14px;">
-          <div class="screenshot">[ screenshot ]</div>
+      <div class="pbox">
+        <div class="box-label cyan">TIME  TRACKER</div>
+        <p style="font-size:9px; line-height:2.4; color:var(--white); text-align:left;">
+          built exactly to how<br>i think about time.<br><br>
+          <span style="color:var(--muted); font-size:8px;">no bloat. no onboarding.<br>just what i needed.</span>
+        </p>
+        <div style="margin-top:16px; width:100%; aspect-ratio:16/9; border:1px dashed var(--dim); display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:7px; color:var(--dim);">[ screenshot ]</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── SLIDE 5: OtterGame origin ── -->
-  <div class="slide" id="slide-5">
-    <div class="kicker">The best part</div>
-    <h2>Built in a Parking Lot,<br>on My Phone</h2>
-    <div class="two-col" style="margin-top: 28px; align-items: center;">
-      <div style="text-align: left;">
-        <p style="font-size: 1.05rem; line-height: 1.7; color: var(--muted);">
-          My son was running video at a basketball game. I was waiting in the parking lot.<br><br>
-          I opened <span class="highlight">Claude on mobile</span> and started describing the game I wanted to build.<br><br>
-          Claude would output an <span class="highlight">HTML file</span>. I'd open it, play it, send feedback, repeat.<br><br>
-          No dev environment. No laptop. Just a parking lot and a few minutes between plays.
-        </p>
+  <!-- ════ SLIDE 5: PARKING LOT — chat ════ -->
+  <div class="slide" id="slide-5" data-chat="true">
+    <div class="kicker">──  the origin story  ──</div>
+    <h2>BUILT  IN  A  PARKING  LOT</h2>
+    <p class="chat-context">waiting to pick up my son  ·  claude mobile  ·  30 minutes  ·  no laptop</p>
+    <div class="chat-area">
+
+      <div class="chat-msg user">
+        <div class="chat-who">YOU</div>
+        <div class="chat-bubble">
+          build a cute 2d otter game. otters by<br>
+          the river, npcs walking around nearby,<br>
+          and the otter can talk with them.
+        </div>
       </div>
-      <div style="display: flex; justify-content: center;">
-        <div class="screenshot tall">[ phone screenshot<br>or parking lot moment ]</div>
+
+      <div class="chat-msg claude">
+        <div class="chat-who">CLAUDE</div>
+        <div class="chat-bubble">
+          here's your game! arrow keys to move.<br>
+          walk up to the fisherman, frog, or duck<br>
+          to start a conversation.<br>
+          <span style="color:var(--cyan);font-size:8px;margin-top:6px;display:block;">▶ otter_game.html</span>
+        </div>
       </div>
+
+      <div class="chat-msg user">
+        <div class="chat-who">YOU</div>
+        <div class="chat-bubble">
+          otter moves too fast. also add fish<br>
+          jumping out of the river in the background.
+        </div>
+      </div>
+
+      <div class="chat-msg claude">
+        <div class="chat-who">CLAUDE</div>
+        <div class="chat-bubble">
+          slowed the otter down and added jumping<br>
+          fish in the background — they leap out<br>
+          at random intervals.<br>
+          <span style="color:var(--cyan);font-size:8px;margin-top:6px;display:block;">▶ otter_game_v2.html</span>
+        </div>
+      </div>
+
     </div>
+    <div class="chat-hint" id="hint-5"></div>
   </div>
 
-  <!-- ── SLIDE 6: OtterGame ── -->
-  <div class="slide" id="slide-6">
-    <div class="kicker">The payoff</div>
-    <h2>Life of an Otter 🦦</h2>
-    <div class="two-col" style="margin-top: 28px; align-items: center;">
-      <div style="display: flex; justify-content: center;">
-        <div class="screenshot">[ OtterGame screenshot ]</div>
+  <!-- ════ SLIDE 6: DAUGHTER + HIDEOUS OTTERS — chat ════ -->
+  <div class="slide" id="slide-6" data-chat="true">
+    <div class="kicker">──  co-op mode unlocked  ──</div>
+    <h2>MY  DAUGHTER  TOOK  OVER</h2>
+    <p class="chat-context">she had opinions about the otter</p>
+    <div class="chat-area">
+
+      <div class="chat-msg user">
+        <div class="chat-who">HER</div>
+        <div class="chat-bubble">make the otters look hideous</div>
       </div>
-      <div style="text-align: left;">
-        <p style="font-size: 1.05rem; line-height: 1.7; color: var(--muted);">
-          A casual game built with my daughter about an otter's daily life.<br><br>
-          She had opinions. The otter needed to eat fish. It needed to float on its back.<br><br>
-          The AI let us focus on <span class="highlight">the fun parts</span> — what should the otter do? — instead of the plumbing.
-        </p>
+
+      <div class="chat-msg claude">
+        <div class="chat-who">CLAUDE</div>
+        <div class="chat-bubble">
+          done. bulging asymmetrical eyes, wild<br>
+          scraggly whiskers, slightly unhinged<br>
+          expression. still loves the river.
+        </div>
       </div>
+
+      <div class="chat-msg user">
+        <div class="chat-who">HER</div>
+        <div class="chat-bubble">hahahahahaha</div>
+      </div>
+
+      <div class="chat-msg system">
+        <div class="chat-who">NOTE</div>
+        <div class="chat-bubble">
+          game used phaser.js — renders to canvas, so the ai couldn't see it.<br>
+          screenshots were required to show claude what was happening.
+        </div>
+      </div>
+
     </div>
+    <div class="chat-hint" id="hint-6"></div>
   </div>
 
-  <!-- ── SLIDE 7: Takeaways ── -->
+  <!-- ════ SLIDE 7: TAKEAWAYS ════ -->
   <div class="slide" id="slide-7">
-    <div class="kicker">What I'd tell you to try</div>
-    <h2>Takeaways</h2>
-    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 620px; margin-top: 28px; text-align: left;">
-      <div class="card">
-        <h3>Start with something purely for fun</h3>
-        <p>No stakes = low pressure = faster learning. Build a thing you actually want to exist.</p>
+    <div class="kicker">──  game over  ·  lessons learned  ──</div>
+    <h2>TAKEAWAYS</h2>
+    <div class="achievements">
+      <div class="achievement">
+        <div class="ach-icon" style="color:var(--green);">★</div>
+        <div>
+          <div class="ach-title">start with something purely for fun</div>
+          <div class="ach-desc">no stakes = faster learning. build a thing you want to exist.</div>
+        </div>
       </div>
-      <div class="card">
-        <h3>When vibe coding stalls, write a spec</h3>
-        <p>The more clearly you define what you want, the better the AI can help you build it.</p>
+      <div class="achievement">
+        <div class="ach-icon" style="color:var(--green);">★</div>
+        <div>
+          <div class="ach-title">when vibe coding stalls, write a spec</div>
+          <div class="ach-desc">clear intent → better output. this is just good engineering.</div>
+        </div>
       </div>
-      <div class="card">
-        <h3>The barrier is lower than you think</h3>
-        <p>A parking lot. A phone. An HTML file. That's enough to start.</p>
+      <div class="achievement">
+        <div class="ach-icon" style="color:var(--green);">★</div>
+        <div>
+          <div class="ach-title">the barrier is lower than you think</div>
+          <div class="ach-desc">a parking lot. a phone. an html file. that's enough to start.</div>
+        </div>
       </div>
     </div>
   </div>
 
 </div>
 
-<!-- ── Navigation ── -->
+<!-- ── Nav bar ── -->
 <div id="nav">
-  <button id="prev" onclick="go(-1)" disabled>← Prev</button>
+  <button id="prev-btn" onclick="go(-1)" disabled>◄  PREV</button>
   <span id="counter">1 / 7</span>
-  <button id="next" onclick="go(1)">Next →</button>
+  <button id="next-btn" onclick="go(1)">NEXT  ►</button>
 </div>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
+  const slides = [...document.querySelectorAll('.slide')];
   let cur = 0;
 
-  function go(dir) {
-    slides[cur].classList.remove('active');
-    cur = Math.max(0, Math.min(slides.length - 1, cur + dir));
-    slides[cur].classList.add('active');
+  function msgs(slide)    { return [...slide.querySelectorAll('.chat-msg')]; }
+  function shown(slide)   { return slide.querySelectorAll('.chat-msg.visible').length; }
+  function isChat(slide)  { return slide.dataset.chat === 'true'; }
+
+  function updateHint(slide) {
+    const hint = slide.querySelector('.chat-hint');
+    if (!hint) return;
+    const n = shown(slide), total = msgs(slide).length;
+    if (n === 0)           hint.textContent = '▶  press → to reveal conversation';
+    else if (n < total)    hint.textContent = `▶  press → for next message  (${n} / ${total})`;
+    else                   hint.textContent = '▶  press → to continue';
+  }
+
+  function updateNav() {
+    const slide = slides[cur];
+    const chat = isChat(slide);
+    const allShown = !chat || shown(slide) === msgs(slide).length;
     document.getElementById('counter').textContent = `${cur + 1} / ${slides.length}`;
-    document.getElementById('prev').disabled = cur === 0;
-    document.getElementById('next').disabled = cur === slides.length - 1;
+    document.getElementById('prev-btn').disabled = cur === 0 && (!chat || shown(slide) === 0);
+    document.getElementById('next-btn').disabled = cur === slides.length - 1 && allShown;
+  }
+
+  function go(dir) {
+    const slide = slides[cur];
+    if (isChat(slide)) {
+      const n = shown(slide), all = msgs(slide);
+      if (dir === 1 && n < all.length) {
+        all[n].classList.add('visible');
+        updateHint(slide);
+        updateNav();
+        return;
+      }
+      if (dir === -1 && n > 0) {
+        all[n - 1].classList.remove('visible');
+        updateHint(slide);
+        updateNav();
+        return;
+      }
+    }
+    const next = Math.max(0, Math.min(slides.length - 1, cur + dir));
+    if (next === cur) return;
+    slides[cur].classList.remove('active');
+    cur = next;
+    slides[cur].classList.add('active');
+    updateHint(slides[cur]);
+    updateNav();
   }
 
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
     if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
   });
-</script>
 
+  updateHint(slides[0]);
+  updateNav();
+</script>
 </body>
 </html>
