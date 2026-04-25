@@ -22,6 +22,14 @@ The otter game was built with JavaScript and [Phaser.js](https://phaser.io/), a 
 
 This is worth mentioning in the presentation as an honest look at AI limitations and how to work around them.
 
+## Git workflow
+
+After every file change, create a git commit. This keeps a full history so any change can be reverted. Steps:
+1. `git add <changed files>`
+2. `git commit -m "<short description of what changed>"`
+
+This is a local-only repository — no remote push needed unless requested.
+
 ## Files
 
 - `slides.html` — the presentation, 7 slides
