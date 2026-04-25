@@ -16,6 +16,12 @@ A personal presentation covering:
 
 `slides.html` is a self-contained slide deck with keyboard navigation (arrow keys) and Prev/Next buttons.
 
+## OtterGame technical notes
+
+The otter game was built with JavaScript and [Phaser.js](https://phaser.io/), a browser-based video game framework. This created an interesting challenge: the AI agent had no way to run or observe the game directly. Because Phaser renders to a canvas, the agent couldn't test or understand the game state — it needed a screenshot to see what was actually happening. So the workflow became: generate code → open in browser → take a screenshot → share it with the AI → iterate.
+
+This is worth mentioning in the presentation as an honest look at AI limitations and how to work around them.
+
 ## Files
 
 - `slides.html` — the presentation, 7 slides
