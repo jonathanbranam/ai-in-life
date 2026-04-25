@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI in My Life</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --accent: #5b8dee;
+      --accent2: #e8834a;
+      --text: #e8eaf0;
+      --muted: #7a7f99;
+      --card: #22263a;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Slide container ── */
+    #deck {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 80px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      text-align: center;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── Typography ── */
+    .kicker {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    /* ── Layout helpers ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      width: 100%;
+      max-width: 900px;
+      text-align: left;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+    .card p, .card li {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .card ul { list-style: none; padding: 0; }
+    .card ul li::before { content: "→ "; color: var(--accent2); }
+
+    .pill {
+      display: inline-block;
+      background: var(--card);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin: 4px;
+    }
+
+    .highlight {
+      color: var(--accent2);
+    }
+
+    blockquote {
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-style: italic;
+      color: var(--muted);
+      max-width: 700px;
+      line-height: 1.5;
+      border-left: 4px solid var(--accent2);
+      padding-left: 24px;
+      text-align: left;
+      margin-top: 16px;
+    }
+
+    /* ── Screenshot placeholder ── */
+    .screenshot {
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 16/9;
+      background: var(--card);
+      border: 2px dashed #3a3f5c;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+    .screenshot.tall {
+      aspect-ratio: 4/5;
+      max-width: 260px;
+    }
+
+    /* ── Timeline ── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+      max-width: 700px;
+      text-align: left;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .timeline-item.muted .timeline-dot { background: var(--accent2); }
+    .timeline-item h4 { font-size: 1rem; margin-bottom: 4px; }
+    .timeline-item p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── Nav ── */
+    #nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 16px;
+      background: var(--surface);
+    }
+    #nav button {
+      background: var(--card);
+      border: none;
+      color: var(--text);
+      padding: 8px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    #nav button:hover { background: var(--accent); color: #fff; }
+    #nav button:disabled { opacity: 0.3; cursor: default; }
+    #counter { color: var(--muted); font-size: 0.85rem; min-width: 60px; text-align: center; }
+
+    /* ── Slide-specific accents ── */
+    #slide-1 { background: radial-gradient(ellipse at 60% 40%, #1a2540 0%, var(--bg) 70%); }
+    #slide-5 { background: radial-gradient(ellipse at 40% 60%, #1a2a20 0%, var(--bg) 70%); }
+    #slide-6 { background: radial-gradient(ellipse at 50% 50%, #201a2a 0%, var(--bg) 70%); }
+  </style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ── SLIDE 1: Hook ── -->
+  <div class="slide active" id="slide-1">
+    <div class="kicker">AI in my life — a personal story</div>
+    <h1>I built a video game<br>with my daughter<br><span class="highlight">about an otter.</span></h1>
+    <p class="subtitle" style="margin-top: 16px;">Here's how I got there, and what I learned along the way.</p>
+  </div>
+
+  <!-- ── SLIDE 2: Vibe Coding ── -->
+  <div class="slide" id="slide-2">
+    <div class="kicker">Phase 1</div>
+    <h2>Vibe Coding:<br>It Worked, Until It Didn't</h2>
+    <div class="two-col" style="margin-top: 28px;">
+      <div class="card">
+        <h3>The Fun Part</h3>
+        <ul>
+          <li>Low friction — just describe what you want</li>
+          <li>Fast results on small projects</li>
+          <li>Felt like magic</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>The Wall</h3>
+        <ul>
+          <li>Codebase grew, AI lost the thread</li>
+          <li>Fix one thing, break two others</li>
+          <li>Fighting the tool instead of building</li>
+        </ul>
+      </div>
+    </div>
+    <blockquote style="margin-top: 32px;">"Vibe coding is great until you're not vibing anymore."</blockquote>
+  </div>
+
+  <!-- ── SLIDE 3: Spec-Driven ── -->
+  <div class="slide" id="slide-3">
+    <div class="kicker">Phase 2</div>
+    <h2>Spec-Driven Development</h2>
+    <div class="timeline" style="margin-top: 28px;">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div>
+          <h4>Write the spec first</h4>
+          <p>Define what you're building, how it should behave, what the constraints are — before writing a single prompt.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div>
+          <h4>Give the AI a contract, not a wish</h4>
+          <p>A vague prompt gets a vague result. A structured spec gives the model something to hold itself accountable to.</p>
+        </div>
+      </div>
+      <div class="timeline-item muted">
+        <div class="timeline-dot"></div>
+        <div>
+          <h4>Results got dramatically better</h4>
+          <p>The codebase stayed manageable. I spent more time building, less time untangling.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4: Projects ── -->
+  <div class="slide" id="slide-4">
+    <div class="kicker">What I built</div>
+    <h2>Real Tools I Actually Use</h2>
+    <div class="two-col" style="margin-top: 28px;">
+      <div class="card">
+        <h3>Productivity Tools</h3>
+        <p>Small apps for organizing notes, brainstorming ideas, and doing quick research — things I wanted but didn't want to pay a subscription for.</p>
+        <div style="margin-top: 14px;">
+          <div class="screenshot">[ screenshot ]</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Time Tracker</h3>
+        <p>Built exactly to how I think about tracking time — no feature bloat, no onboarding. Just what I needed.</p>
+        <div style="margin-top: 14px;">
+          <div class="screenshot">[ screenshot ]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 5: OtterGame origin ── -->
+  <div class="slide" id="slide-5">
+    <div class="kicker">The best part</div>
+    <h2>Built in a Parking Lot,<br>on My Phone</h2>
+    <div class="two-col" style="margin-top: 28px; align-items: center;">
+      <div style="text-align: left;">
+        <p style="font-size: 1.05rem; line-height: 1.7; color: var(--muted);">
+          My son was running video at a basketball game. I was waiting in the parking lot.<br><br>
+          I opened <span class="highlight">Claude on mobile</span> and started describing the game I wanted to build.<br><br>
+          Claude would output an <span class="highlight">HTML file</span>. I'd open it, play it, send feedback, repeat.<br><br>
+          No dev environment. No laptop. Just a parking lot and a few minutes between plays.
+        </p>
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <div class="screenshot tall">[ phone screenshot<br>or parking lot moment ]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 6: OtterGame ── -->
+  <div class="slide" id="slide-6">
+    <div class="kicker">The payoff</div>
+    <h2>Life of an Otter 🦦</h2>
+    <div class="two-col" style="margin-top: 28px; align-items: center;">
+      <div style="display: flex; justify-content: center;">
+        <div class="screenshot">[ OtterGame screenshot ]</div>
+      </div>
+      <div style="text-align: left;">
+        <p style="font-size: 1.05rem; line-height: 1.7; color: var(--muted);">
+          A casual game built with my daughter about an otter's daily life.<br><br>
+          She had opinions. The otter needed to eat fish. It needed to float on its back.<br><br>
+          The AI let us focus on <span class="highlight">the fun parts</span> — what should the otter do? — instead of the plumbing.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 7: Takeaways ── -->
+  <div class="slide" id="slide-7">
+    <div class="kicker">What I'd tell you to try</div>
+    <h2>Takeaways</h2>
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 620px; margin-top: 28px; text-align: left;">
+      <div class="card">
+        <h3>Start with something purely for fun</h3>
+        <p>No stakes = low pressure = faster learning. Build a thing you actually want to exist.</p>
+      </div>
+      <div class="card">
+        <h3>When vibe coding stalls, write a spec</h3>
+        <p>The more clearly you define what you want, the better the AI can help you build it.</p>
+      </div>
+      <div class="card">
+        <h3>The barrier is lower than you think</h3>
+        <p>A parking lot. A phone. An HTML file. That's enough to start.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Navigation ── -->
+<div id="nav">
+  <button id="prev" onclick="go(-1)" disabled>← Prev</button>
+  <span id="counter">1 / 7</span>
+  <button id="next" onclick="go(1)">Next →</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let cur = 0;
+
+  function go(dir) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(slides.length - 1, cur + dir));
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent = `${cur + 1} / ${slides.length}`;
+    document.getElementById('prev').disabled = cur === 0;
+    document.getElementById('next').disabled = cur === slides.length - 1;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  });
+</script>
+
+</body>
+</html>
