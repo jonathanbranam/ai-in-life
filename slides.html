@@ -23,21 +23,37 @@
     }
 
     body {
+      margin: 0;
+      background: #1e1b16;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #presentation {
+      width: 1920px;
+      height: 1080px;
+      border: 6px solid var(--dim);
       background: var(--bg);
       background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.07) 1px, transparent 0);
       background-size: 20px 20px;
       color: var(--white);
       font-family: 'Press Start 2P', monospace;
-      height: 100vh;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      transform-origin: center center;
+      flex-shrink: 0;
     }
 
     /* CRT scanlines */
-    body::after {
+    #presentation::after {
       content: '';
-      position: fixed;
+      position: absolute;
       inset: 0;
       background: repeating-linear-gradient(
         0deg, transparent, transparent 3px,
@@ -282,6 +298,7 @@
 </head>
 <body>
 
+<div id="presentation">
 <div id="deck">
 
   <!-- ════ SLIDE 1: TITLE ════ -->
@@ -532,9 +549,11 @@
 <!-- ── Nav bar ── -->
 <div id="nav">
   <button id="prev-btn" onclick="go(-1)" disabled>◄  PREV</button>
-  <span id="counter">1 / 7</span>
+  <span id="counter">1 / 8</span>
   <button id="next-btn" onclick="go(1)">NEXT  ►</button>
 </div>
+
+</div><!-- /#presentation -->
 
 <script>
   const slides = [...document.querySelectorAll('.slide')];
@@ -595,6 +614,13 @@
 
   updateHint(slides[0]);
   updateNav();
+
+  function scalePresentation() {
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.getElementById('presentation').style.transform = `scale(${s})`;
+  }
+  window.addEventListener('resize', scalePresentation);
+  scalePresentation();
 </script>
 </body>
 </html>
