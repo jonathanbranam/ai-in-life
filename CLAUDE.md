@@ -32,5 +32,5 @@ This is a local-only repository — no remote push needed unless requested.
 
 ## Files
 
-- `slides.html` — the presentation, 7 slides
+- `slides.html` — the presentation, 8 slides
 - `CLAUDE.md` — this file
