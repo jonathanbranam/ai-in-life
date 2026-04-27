@@ -37,10 +37,10 @@
       width: 1920px;
       height: 1080px;
       transform-origin: 0 0;
-      border: 6px solid var(--dim);
+      border: 4px solid #000;
       background: var(--bg);
       background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.07) 1px, transparent 0);
-      background-size: 20px 20px;
+      background-size: 50px 50px;
       color: var(--white);
       font-family: 'Press Start 2P', monospace;
       display: flex;
@@ -54,8 +54,8 @@
       position: absolute;
       inset: 0;
       background: repeating-linear-gradient(
-        0deg, transparent, transparent 3px,
-        rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px
+        0deg, transparent, transparent 7px,
+        rgba(0,0,0,0.03) 7px, rgba(0,0,0,0.03) 8px
       );
       pointer-events: none;
       z-index: 9999;
@@ -71,7 +71,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 36px 56px;
+      padding: 90px 140px;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
@@ -81,55 +81,55 @@
 
     /* ── Type ── */
     .kicker {
-      font-size: 8px;
+      font-size: 20px;
       color: var(--magenta);
       text-shadow: 0 0 10px var(--magenta);
       letter-spacing: 0.08em;
-      margin-bottom: 20px;
+      margin-bottom: 50px;
     }
 
     h1 {
-      font-size: clamp(22px, 3.8vw, 38px);
+      font-size: 56px;
       line-height: 1.6;
       color: var(--cyan);
-      text-shadow: 1px 1px 0 rgba(0,119,170,0.2);
-      margin-bottom: 18px;
+      text-shadow: 2px 2px 0 rgba(0,119,170,0.2);
+      margin-bottom: 45px;
     }
 
     h2 {
-      font-size: clamp(14px, 2.4vw, 26px);
+      font-size: 38px;
       line-height: 1.6;
       color: var(--cyan);
-      text-shadow: 1px 1px 0 rgba(0,119,170,0.2);
-      margin-bottom: 22px;
+      text-shadow: 2px 2px 0 rgba(0,119,170,0.2);
+      margin-bottom: 55px;
     }
 
     /* ── Pixel box ── */
     .pbox {
-      border: 2px solid var(--cyan);
-      padding: 20px 22px;
+      border: 3px solid var(--cyan);
+      padding: 50px 55px;
       background: rgba(0,119,170,0.06);
-      box-shadow: 2px 2px 0 rgba(0,119,170,0.2);
+      box-shadow: 4px 4px 0 rgba(0,119,170,0.2);
     }
     .pbox.yellow {
       border-color: var(--yellow);
       background: rgba(153,102,0,0.06);
-      box-shadow: 2px 2px 0 rgba(153,102,0,0.2);
+      box-shadow: 4px 4px 0 rgba(153,102,0,0.2);
     }
     .pbox.magenta {
       border-color: var(--magenta);
       background: rgba(204,17,85,0.06);
-      box-shadow: 2px 2px 0 rgba(204,17,85,0.2);
+      box-shadow: 4px 4px 0 rgba(204,17,85,0.2);
     }
     .pbox.green {
       border-color: var(--green);
       background: rgba(26,138,0,0.06);
-      box-shadow: 2px 2px 0 rgba(26,138,0,0.2);
+      box-shadow: 4px 4px 0 rgba(26,138,0,0.2);
     }
 
     .box-label {
-      font-size: 8px;
-      margin-bottom: 14px;
+      font-size: 20px;
+      margin-bottom: 35px;
       letter-spacing: 0.06em;
     }
     .box-label.cyan    { color: var(--cyan); }
@@ -139,7 +139,7 @@
 
     .pbox ul { list-style: none; padding: 0; text-align: left; }
     .pbox ul li {
-      font-size: 9px;
+      font-size: 22px;
       line-height: 2.4;
       color: var(--white);
     }
@@ -149,81 +149,81 @@
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 60px;
       width: 100%;
-      max-width: 860px;
+      max-width: 1500px;
     }
 
     /* ── Steps ── */
     .steps {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 45px;
       width: 100%;
-      max-width: 700px;
+      max-width: 1200px;
       text-align: left;
     }
-    .step { display: flex; gap: 18px; align-items: flex-start; }
+    .step { display: flex; gap: 45px; align-items: flex-start; }
     .step-num {
-      font-size: 10px;
+      font-size: 25px;
       color: var(--cyan);
       flex-shrink: 0;
-      width: 32px;
+      width: 80px;
     }
-    .step-title { font-size: 10px; line-height: 1.8; color: var(--white); }
-    .step-sub   { font-size: 8px;  line-height: 2.2; color: var(--muted); margin-top: 5px; }
+    .step-title { font-size: 25px; line-height: 1.8; color: var(--white); }
+    .step-sub   { font-size: 20px; line-height: 2.2; color: var(--muted); margin-top: 12px; }
 
     /* ── Retro quote ── */
     .retro-quote {
-      font-size: 9px;
+      font-size: 22px;
       line-height: 2.2;
       color: var(--yellow);
       text-align: center;
-      max-width: 580px;
-      margin-top: 22px;
-      border: 1px solid rgba(153,102,0,0.35);
-      padding: 14px 22px;
+      max-width: 1100px;
+      margin-top: 55px;
+      border: 2px solid rgba(153,102,0,0.35);
+      padding: 35px 55px;
       background: rgba(153,102,0,0.05);
     }
 
-    /* ── Achievements (slide 7) ── */
+    /* ── Achievements ── */
     .achievements {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      max-width: 700px;
+      gap: 35px;
+      max-width: 1200px;
       width: 100%;
     }
     .achievement {
       display: flex;
-      gap: 16px;
+      gap: 40px;
       align-items: flex-start;
-      padding: 14px 18px;
-      border: 2px solid var(--green);
+      padding: 35px 45px;
+      border: 3px solid var(--green);
       background: rgba(26,138,0,0.06);
-      box-shadow: 2px 2px 0 rgba(26,138,0,0.2);
+      box-shadow: 4px 4px 0 rgba(26,138,0,0.2);
       text-align: left;
     }
-    .ach-icon  { font-size: 12px; flex-shrink: 0; margin-top: 3px; }
-    .ach-title { font-size: 9px; color: var(--green); margin-bottom: 7px; }
-    .ach-desc  { font-size: 8px; color: var(--muted); line-height: 2.2; }
+    .ach-icon  { font-size: 30px; flex-shrink: 0; margin-top: 8px; }
+    .ach-title { font-size: 22px; color: var(--green); margin-bottom: 18px; }
+    .ach-desc  { font-size: 20px; color: var(--muted); line-height: 2.2; }
 
     /* ── Chat ── */
     .chat-context {
-      font-size: 8px;
+      font-size: 20px;
       color: var(--muted);
       text-align: center;
       line-height: 2;
-      margin-bottom: 10px;
+      margin-bottom: 25px;
       letter-spacing: 0.05em;
     }
 
     .chat-area {
       width: 100%;
-      max-width: 740px;
+      max-width: 1300px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 35px;
     }
 
     .chat-msg {
@@ -238,8 +238,8 @@
     .chat-msg.system { align-self: center; max-width: 90%; }
 
     .chat-who {
-      font-size: 7px;
-      margin-bottom: 6px;
+      font-size: 18px;
+      margin-bottom: 15px;
       letter-spacing: 0.06em;
     }
     .chat-msg.user   .chat-who { color: var(--yellow); text-align: right; }
@@ -247,20 +247,20 @@
     .chat-msg.system .chat-who { color: var(--muted);  text-align: center; }
 
     .chat-bubble {
-      font-size: 9px;
+      font-size: 22px;
       line-height: 2.2;
-      padding: 12px 16px;
+      padding: 30px 40px;
     }
-    .chat-msg.user   .chat-bubble { border: 2px solid var(--yellow); background: rgba(153,102,0,0.07);  box-shadow: 2px 2px 0 rgba(153,102,0,0.15); }
-    .chat-msg.claude .chat-bubble { border: 2px solid var(--cyan);   background: rgba(0,119,170,0.07);  box-shadow: 2px 2px 0 rgba(0,119,170,0.15); }
-    .chat-msg.system .chat-bubble { border: 1px solid var(--muted);  background: rgba(0,0,0,0.03); color: var(--muted); font-size: 8px; text-align: center; }
+    .chat-msg.user   .chat-bubble { border: 3px solid var(--yellow); background: rgba(153,102,0,0.07);  box-shadow: 4px 4px 0 rgba(153,102,0,0.15); }
+    .chat-msg.claude .chat-bubble { border: 3px solid var(--cyan);   background: rgba(0,119,170,0.07);  box-shadow: 4px 4px 0 rgba(0,119,170,0.15); }
+    .chat-msg.system .chat-bubble { border: 2px solid var(--muted);  background: rgba(0,0,0,0.03); color: var(--muted); font-size: 20px; text-align: center; }
 
     .chat-hint {
-      font-size: 7px;
+      font-size: 18px;
       color: var(--muted);
       text-align: center;
-      margin-top: 10px;
-      min-height: 18px;
+      margin-top: 25px;
+      min-height: 45px;
       letter-spacing: 0.06em;
     }
 
@@ -273,25 +273,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 24px;
-      padding: 10px;
+      gap: 60px;
+      padding: 25px;
       background: var(--surface);
-      border-top: 2px solid var(--dim);
+      border-top: 3px solid var(--dim);
     }
     #nav button {
       font-family: 'Press Start 2P', monospace;
-      font-size: 8px;
+      font-size: 20px;
       background: transparent;
-      border: 2px solid var(--cyan);
+      border: 3px solid var(--cyan);
       color: var(--cyan);
-      padding: 8px 16px;
+      padding: 20px 40px;
       cursor: pointer;
-      box-shadow: 2px 2px 0 rgba(0,119,170,0.2);
+      box-shadow: 4px 4px 0 rgba(0,119,170,0.2);
       transition: background 0.15s;
     }
     #nav button:hover  { background: rgba(0,119,170,0.1); }
     #nav button:disabled { opacity: 0.22; cursor: default; }
-    #counter { font-size: 8px; color: var(--muted); min-width: 72px; text-align: center; }
+    #counter { font-size: 20px; color: var(--muted); min-width: 180px; text-align: center; }
   </style>
 </head>
 <body>
@@ -301,17 +301,17 @@
 
   <!-- ════ SLIDE 1: TITLE ════ -->
   <div class="slide active" id="slide-1">
-    <div style="font-size:11px; color:var(--yellow); text-shadow:0 0 10px var(--yellow); letter-spacing:12px; margin-bottom:20px;">★  ★  ★  ★  ★</div>
+    <div style="font-size:28px; color:var(--yellow); text-shadow:0 0 10px var(--yellow); letter-spacing:30px; margin-bottom:50px;">★  ★  ★  ★  ★</div>
     <div class="kicker">──  a personal side quest  ──</div>
     <h1>AI IN MY LIFE</h1>
-    <p style="font-size:10px; color:var(--muted); line-height:2.2;">
+    <p style="font-size:25px; color:var(--muted); line-height:2.2;">
       I built a video game with my daughter<br>
       <span style="color:var(--yellow); text-shadow:0 0 10px var(--yellow);">about an otter.</span>
     </p>
-    <p style="font-size:8px; color:var(--muted); margin-top:28px; line-height:2;">
+    <p style="font-size:20px; color:var(--muted); margin-top:70px; line-height:2;">
       here's how i got there, and what i learned along the way<span class="blink">_</span>
     </p>
-    <p style="font-size:7px; color:var(--dim); margin-top:32px; letter-spacing:0.1em;">PRESS  →  TO  START</p>
+    <p style="font-size:18px; color:var(--dim); margin-top:80px; letter-spacing:0.1em;">PRESS  →  TO  START</p>
   </div>
 
   <!-- ════ SLIDE 2: VIBE CODING ════ -->
@@ -377,22 +377,22 @@
     <div class="two-col">
       <div class="pbox">
         <div class="box-label cyan">PRODUCTIVITY  TOOLS</div>
-        <p style="font-size:9px; line-height:2.4; color:var(--white); text-align:left;">
+        <p style="font-size:22px; line-height:2.4; color:var(--white); text-align:left;">
           small apps for notes,<br>brainstorming, and research.<br><br>
-          <span style="color:var(--muted); font-size:8px;">things i wanted but didn't<br>want to subscribe to.</span>
+          <span style="color:var(--muted); font-size:20px;">things i wanted but didn't<br>want to subscribe to.</span>
         </p>
-        <div style="margin-top:16px; width:100%; aspect-ratio:16/9; border:1px dashed var(--dim); display:flex; align-items:center; justify-content:center;">
-          <span style="font-size:7px; color:var(--dim);">[ screenshot ]</span>
+        <div style="margin-top:40px; width:100%; aspect-ratio:16/9; border:2px dashed var(--dim); display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:18px; color:var(--dim);">[ screenshot ]</span>
         </div>
       </div>
       <div class="pbox">
         <div class="box-label cyan">TIME  TRACKER</div>
-        <p style="font-size:9px; line-height:2.4; color:var(--white); text-align:left;">
+        <p style="font-size:22px; line-height:2.4; color:var(--white); text-align:left;">
           built exactly to how<br>i think about time.<br><br>
-          <span style="color:var(--muted); font-size:8px;">no bloat. no onboarding.<br>just what i needed.</span>
+          <span style="color:var(--muted); font-size:20px;">no bloat. no onboarding.<br>just what i needed.</span>
         </p>
-        <div style="margin-top:16px; width:100%; aspect-ratio:16/9; border:1px dashed var(--dim); display:flex; align-items:center; justify-content:center;">
-          <span style="font-size:7px; color:var(--dim);">[ screenshot ]</span>
+        <div style="margin-top:40px; width:100%; aspect-ratio:16/9; border:2px dashed var(--dim); display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:18px; color:var(--dim);">[ screenshot ]</span>
         </div>
       </div>
     </div>
@@ -420,7 +420,7 @@
           here's your game! arrow keys to move.<br>
           walk up to the fisherman, frog, or duck<br>
           to start a conversation.<br>
-          <span style="color:var(--cyan);font-size:8px;margin-top:6px;display:block;">▶ otter_game.html</span>
+          <span style="color:var(--cyan);font-size:20px;margin-top:15px;display:block;">▶ otter_game.html</span>
         </div>
       </div>
 
@@ -489,21 +489,21 @@
     <div class="kicker">──  honest assessment  ──</div>
     <h2>WHERE  AI  GOT  STUCK</h2>
     <div class="achievements">
-      <div class="achievement" style="border-color:var(--magenta); background:rgba(204,17,85,0.06); box-shadow:2px 2px 0 rgba(204,17,85,0.2);">
+      <div class="achievement" style="border-color:var(--magenta); background:rgba(204,17,85,0.06); box-shadow:4px 4px 0 rgba(204,17,85,0.2);">
         <div class="ach-icon" style="color:var(--magenta);">✗</div>
         <div>
           <div class="ach-title" style="color:var(--magenta);">on-screen joystick</div>
           <div class="ach-desc">several prompts, several iterations. never got it working reliably.</div>
         </div>
       </div>
-      <div class="achievement" style="border-color:var(--magenta); background:rgba(204,17,85,0.06); box-shadow:2px 2px 0 rgba(204,17,85,0.2);">
+      <div class="achievement" style="border-color:var(--magenta); background:rgba(204,17,85,0.06); box-shadow:4px 4px 0 rgba(204,17,85,0.2);">
         <div class="ach-icon" style="color:var(--magenta);">✗</div>
         <div>
           <div class="ach-title" style="color:var(--magenta);">npc interaction range</div>
           <div class="ach-desc">triggered walking past npcs — too far away, no stopping required. kept breaking after fixes.</div>
         </div>
       </div>
-      <div class="achievement" style="border-color:var(--magenta); background:rgba(204,17,85,0.06); box-shadow:2px 2px 0 rgba(204,17,85,0.2);">
+      <div class="achievement" style="border-color:var(--magenta); background:rgba(204,17,85,0.06); box-shadow:4px 4px 0 rgba(204,17,85,0.2);">
         <div class="ach-icon" style="color:var(--magenta);">✗</div>
         <div>
           <div class="ach-title" style="color:var(--magenta);">ai-generated sprites</div>
